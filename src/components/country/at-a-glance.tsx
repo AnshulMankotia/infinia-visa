@@ -42,16 +42,16 @@ export function AtAGlance({ country }: { country: Country }) {
       <Reveal className="mt-8 overflow-hidden rounded-2xl border border-line shadow-[0_20px_44px_-34px_rgba(31,26,21,0.35)]">
         {/* gap-px over the line colour paints perfect hairlines between cells. */}
         <dl className="grid grid-cols-2 gap-px bg-line sm:grid-cols-3">
-          {specs.map((spec) => (
+          {specs.map((spec, index) => (
             <div
               key={spec.label}
-              className="group bg-surface p-5 transition-colors duration-300 hover:bg-brand-tint/35"
+              className={`p-5 ${index % 2 === 0 ? "bg-brand-tint/55" : "bg-surface"}`}
             >
               <dt className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.14em] text-ink-soft uppercase">
                 <spec.icon
                   size={14}
                   stroke={1.8}
-                  className="text-brand-strong transition-transform duration-300 group-hover:scale-110"
+                  className="text-brand-strong"
                 />
                 {spec.label}
               </dt>

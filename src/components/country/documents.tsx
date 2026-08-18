@@ -44,12 +44,12 @@ export function Documents({ country }: { country: Country }) {
               as="li"
               key={document.name}
               index={index % 2}
-              className="group relative overflow-hidden rounded-xl border border-line bg-surface p-5 transition-[border-color,box-shadow] duration-300 hover:border-brand hover:shadow-[0_20px_44px_-32px_rgba(31,26,21,0.4)]"
+              className="group relative overflow-hidden rounded-xl border border-white/75 bg-surface/72 p-5 shadow-[0_18px_38px_-32px_rgba(31,26,21,0.5)] backdrop-blur-xl transition-[background-color,border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-brand/55 hover:bg-surface/88 hover:shadow-[0_24px_46px_-32px_rgba(31,26,21,0.55)]"
             >
               {/* Gold index watermark. */}
               <span
                 aria-hidden="true"
-                className="numeric pointer-events-none absolute -top-2 right-3 font-heading text-[3.2rem] leading-none text-brand/12 transition-colors duration-300 group-hover:text-brand/20"
+                className="numeric pointer-events-none absolute top-3 right-4 font-heading text-[2.9rem] leading-none text-brand/12 transition-colors duration-300 group-hover:text-brand/20"
               >
                 {String(index + 1).padStart(2, "0")}
               </span>
