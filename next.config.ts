@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Allow testing the development server from another device on this local network.
+  allowedDevOrigins: ["192.168.29.216"],
   // Pin the workspace root; a stray package-lock.json sits above this directory.
   turbopack: { root: import.meta.dirname },
   images: {

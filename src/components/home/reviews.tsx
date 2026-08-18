@@ -22,7 +22,7 @@ export function Reviews() {
   }));
 
   return (
-    <section id="reviews" className="scroll-mt-28 pt-20 pb-0 md:pt-24">
+    <section id="reviews" className="scroll-mt-28 pt-20 pb-20 md:pt-24 md:pb-24">
       <div className="mx-auto max-w-[1280px] px-4 md:px-8">
         <Reveal className="flex flex-wrap items-end justify-between gap-8">
           <div>

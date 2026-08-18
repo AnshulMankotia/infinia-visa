@@ -38,8 +38,15 @@ export function Hero() {
         className="hero-drift -z-10 object-cover object-center"
       />
 
-      {/* Warm scrim: keeps the ink headline legible on the bright cloud bank. */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(90%_75%_at_50%_38%,rgba(247,242,233,0.92)_0%,rgba(247,242,233,0.55)_55%,rgba(247,242,233,0.15)_100%)]" />
+      {/* A restrained, warm scrim keeps the clouds visible without bleaching the photograph. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(90% 75% at 50% 38%, rgb(236 231 222 / 0.76) 0%, rgb(229 222 211 / 0.43) 55%, rgb(31 26 21 / 0.18) 100%), linear-gradient(rgb(31 26 21 / 0.08), rgb(31 26 21 / 0.08))",
+        }}
+      />
       {/* Top scrim so the white nav reads against the cloud bank. */}
       <div className="absolute inset-x-0 top-0 -z-10 h-36 bg-gradient-to-b from-[#1f1a15]/45 via-[#1f1a15]/12 to-transparent" />
       {/* Eased cloud fade: many soft stops so the blend into the page has no visible edge. */}

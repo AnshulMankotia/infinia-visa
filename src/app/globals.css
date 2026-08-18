@@ -233,6 +233,31 @@
   font-feature-settings: "tnum";
 }
 
+/* The application pane is the only independently scrolling region on the wizard. */
+.application-form-scroll {
+  scrollbar-color: var(--brand) var(--paper);
+  scrollbar-width: thin;
+}
+
+.application-form-scroll::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+.application-form-scroll::-webkit-scrollbar-track {
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+}
+
+.application-form-scroll::-webkit-scrollbar-thumb {
+  background: var(--brand);
+  border: 3px solid var(--paper);
+  border-radius: 999px;
+}
+
+.application-form-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-strong);
+}
+
 /* Marquee track: each half of the duplicated list slides one full width. */
 @keyframes scroll {
   to {
@@ -267,38 +292,4 @@
   html {
     scroll-behavior: auto;
   }
-}
-
-/*
-  Notification bell.
-
-  One 5s cycle where the shake occupies only the first ~14% and the rest is dead time, so
-  the bell nudges every five seconds without a JS timer. The clapper swings from the top of
-  the bell, not its centre. The reduced-motion block above stops it outright.
-*/
-@keyframes bell-ring {
-  0%   { transform: rotate(0deg); }
-  2%   { transform: rotate(14deg); }
-  4%   { transform: rotate(-12deg); }
-  6%   { transform: rotate(9deg); }
-  8%   { transform: rotate(-7deg); }
-  10%  { transform: rotate(4deg); }
-  12%  { transform: rotate(-2deg); }
-  14%, 100% { transform: rotate(0deg); }
-}
-
-.bell-ring {
-  transform-origin: 50% 12%;
-  animation: bell-ring 5s ease-in-out infinite;
-}
-
-/* The badge breathes on the same 5s beat so the two read as one alert. */
-@keyframes badge-throb {
-  0%, 14%, 100% { transform: scale(1); }
-  4%            { transform: scale(1.18); }
-  9%            { transform: scale(1.06); }
-}
-
-.badge-throb {
-  animation: badge-throb 5s ease-in-out infinite;
 }

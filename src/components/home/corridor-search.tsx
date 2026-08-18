@@ -36,13 +36,18 @@ function formatRange(range: DateRange | undefined) {
 // One treatment for all three cells: a soft tint plus a hairline ring, never a hard
 // outline. The global focus outline is suppressed here so it cannot double up.
 const cellClass =
-  "group/cell flex h-auto w-full items-center gap-3.5 rounded-xl border-0 bg-transparent px-4 py-3.5 text-left shadow-none ring-0 outline-none transition-colors duration-300 hover:bg-brand-tint/35 focus-visible:bg-brand-tint/50 focus-visible:shadow-none focus-visible:ring-0 focus-visible:outline-none data-[state=open]:bg-brand-tint/50 data-[state=open]:shadow-none [&>svg:last-child]:text-ink-soft [&>svg:last-child]:transition-transform [&>svg:last-child]:duration-300 data-[state=open]:[&>svg:last-child]:rotate-180";
+  "group/cell flex h-auto w-full items-center gap-3.5 rounded-xl border-0 bg-transparent px-4 py-3.5 text-left shadow-none ring-0 outline-none transition-colors duration-300 hover:bg-brand-tint/45 focus-visible:bg-brand-tint/60 focus-visible:shadow-none focus-visible:ring-0 focus-visible:outline-none data-[state=open]:bg-brand-tint/60 data-[state=open]:shadow-none [&>svg:last-child]:text-ink-soft [&>svg:last-child]:transition-transform [&>svg:last-child]:duration-300 data-[state=open]:[&>svg:last-child]:rotate-180";
 
+// The chip carries a hairline and a warm shadow so it reads as an object on the
+// photograph rather than a flat tint, and it fills gold the moment the cell is live.
 const iconClass =
-  "grid size-9 shrink-0 place-items-center rounded-lg bg-brand-tint text-brand-strong transition-colors duration-300 group-hover/cell:bg-brand group-hover/cell:text-brand-ink group-data-[state=open]/cell:bg-brand group-data-[state=open]/cell:text-brand-ink";
+  "grid size-9 shrink-0 place-items-center rounded-lg bg-brand-tint text-brand-strong ring-1 ring-brand/20 shadow-[inset_0_1px_0_0_rgb(255_255_255/0.6)] transition-all duration-300 group-hover/cell:scale-105 group-hover/cell:bg-brand group-hover/cell:text-brand-ink group-hover/cell:ring-brand-strong/40 group-data-[state=open]/cell:scale-105 group-data-[state=open]/cell:bg-brand group-data-[state=open]/cell:text-brand-ink";
 
-const labelClass = "block text-[11px] leading-none tracking-[0.04em] text-ink-soft";
-const valueClass = "mt-1.5 block truncate text-[14px] leading-none font-medium";
+// Small caps on the label, matching the type language the rest of the site uses for
+// field headings. The value below it is what the eye should land on.
+const labelClass =
+  "block text-[10px] leading-none font-medium tracking-[0.14em] text-ink-soft uppercase transition-colors duration-300 group-hover/cell:text-brand-strong";
+const valueClass = "mt-2 block truncate text-[14.5px] leading-none font-medium";
 
 /**
  * Corridor search card. Straddles the bottom edge of the hero photograph.
@@ -70,11 +75,29 @@ export function CorridorSearch() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1280px] px-4 md:px-8">
-      <div className="rounded-2xl border border-white/60 bg-white/80 p-2 shadow-[0_26px_60px_-30px_rgba(31,26,21,0.5)] ring-1 ring-line/50 backdrop-blur-xl">
-        <div className="grid gap-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-center lg:gap-0">
+    <div className="mx-auto w-full max-w-[1120px] px-4 md:px-8">
+      <div className="group/card relative">
+        {/* A warm halo bled out behind the card. The hero sky is bright, and without it
+            the panel dissolves into the photograph instead of sitting on top of it. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-x-6 -inset-y-5 rounded-[2.5rem] bg-[radial-gradient(55%_120%_at_50%_55%,rgba(31,26,21,0.38),transparent_72%)] blur-2xl"
+        />
+
+        <div className="relative overflow-hidden rounded-2xl border border-white/70 bg-white/92 p-2 shadow-[0_2px_6px_-2px_rgba(31,26,21,0.25),0_34px_64px_-24px_rgba(31,26,21,0.55)] ring-1 ring-brand/25 backdrop-blur-2xl transition-shadow duration-500 hover:shadow-[0_2px_6px_-2px_rgba(31,26,21,0.3),0_44px_78px_-26px_rgba(31,26,21,0.62)]">
+          {/* Gold hairline along the top edge, then a faint sheen down the face. */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/70 to-transparent"
+          />
+
+          <div className="relative grid gap-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-center lg:gap-0">
           {/* Nationality */}
-          <div className="lg:relative lg:after:absolute lg:after:inset-y-4 lg:after:right-0 lg:after:w-px lg:after:bg-line">
+          <div className="border-b border-line/60 lg:relative lg:border-b-0 lg:after:absolute lg:after:inset-y-3 lg:after:right-0 lg:after:w-px lg:after:bg-gradient-to-b lg:after:from-transparent lg:after:via-line lg:after:to-transparent">
             <Select name="nationality" value={nationality} onValueChange={setNationality}>
               <SelectTrigger id={`${ids}-nationality`} aria-label="Nationality" className={cellClass}>
                 <span className={iconClass}>
@@ -104,7 +127,7 @@ export function CorridorSearch() {
           </div>
 
           {/* Destination */}
-          <div className="lg:relative lg:after:absolute lg:after:inset-y-4 lg:after:right-0 lg:after:w-px lg:after:bg-line">
+          <div className="border-b border-line/60 lg:relative lg:border-b-0 lg:after:absolute lg:after:inset-y-3 lg:after:right-0 lg:after:w-px lg:after:bg-gradient-to-b lg:after:from-transparent lg:after:via-line lg:after:to-transparent">
             <Select
               name="destination"
               value={destination}
@@ -147,7 +170,7 @@ export function CorridorSearch() {
           </div>
 
           {/* Travel dates */}
-          <div>
+          <div className="border-b border-line/60 md:border-b-0">
             <Popover>
               <PopoverTrigger
                 id={`${ids}-dates`}
@@ -197,11 +220,21 @@ export function CorridorSearch() {
             <button
               type="button"
               onClick={handleSearch}
-              className="btn-gold inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl px-7 text-[14px] font-semibold text-brand-ink transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none hover:-translate-y-0.5 hover:bg-[#b0966f] hover:shadow-[0_14px_28px_-16px_rgba(31,26,21,0.7)] focus-visible:shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--brand-strong)] focus-visible:outline-none active:translate-y-0 active:scale-[0.98] lg:w-auto"
+              className="btn-gold group/cta relative inline-flex h-[54px] w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl px-8 text-[14.5px] font-semibold text-brand-ink transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none hover:-translate-y-0.5 hover:bg-[#b0966f] hover:shadow-[0_16px_32px_-16px_rgba(31,26,21,0.75)] focus-visible:shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--brand-strong)] focus-visible:outline-none active:translate-y-0 active:scale-[0.98] lg:w-auto"
             >
-              <IconSearch size={16} stroke={2} />
-              Find my visa
+              {/* Shine sweep, the same one the auth buttons use. */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-0 -left-3/4 h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/45 to-transparent transition-transform duration-700 ease-out group-hover/cta:translate-x-[320%]"
+              />
+              <IconSearch
+                size={17}
+                stroke={2}
+                className="relative transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/cta:scale-110"
+              />
+              <span className="relative">Find my visa</span>
             </button>
+          </div>
           </div>
         </div>
       </div>
