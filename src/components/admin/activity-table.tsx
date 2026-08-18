@@ -7,7 +7,8 @@
  * dot — decorative only until this reads a real feed.
  */
 
-import { IconDots } from "@tabler/icons-react";
+import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import { Ellipsis } from "@/components/animate-ui/icons/ellipsis";
 import {
   Table,
   TableBody,
@@ -52,10 +53,9 @@ export function ActivityTable({ index = 0 }: { index?: number }) {
           </TableHeader>
           <TableBody>
             {ACTIVITY.map((row, i) => (
-              <TableRow
-                key={`${row.time}-${i}`}
-                className="group border-line transition-colors hover:bg-paper/50"
-              >
+              // Hovering the row plays the trailing menu glyph.
+              <AnimateIcon key={`${row.time}-${i}`} asChild animateOnHover>
+                <TableRow className="group border-line transition-colors hover:bg-paper/50">
                 <TableCell className="numeric w-24 px-4 py-1.5 text-[12.5px] text-ink-soft">
                   {row.time}
                 </TableCell>
@@ -73,10 +73,11 @@ export function ActivityTable({ index = 0 }: { index?: number }) {
                     aria-label="Row actions"
                     className="grid size-7 place-items-center rounded-md text-ink-soft opacity-0 transition-opacity group-hover:opacity-100 hover:bg-paper focus-visible:opacity-100"
                   >
-                    <IconDots stroke={1.7} className="size-4" />
+                    <Ellipsis strokeWidth={1.7} className="size-4" />
                   </button>
                 </TableCell>
-              </TableRow>
+                </TableRow>
+              </AnimateIcon>
             ))}
           </TableBody>
         </Table>

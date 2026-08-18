@@ -4,26 +4,27 @@
  * Admin rail.
  *
  * Grouped sections with small-caps labels, one active item marked by a gold-tint plate
- * that slides between rows via a shared layout id. Only Dashboard is wired — the rest are
- * placeholders for pages that do not exist yet, so they carry no href.
+ * that slides between rows via a shared layout id. Icons come from Animate UI and play
+ * their motion when the whole row is hovered, not just the glyph — the row is wrapped in
+ * `AnimateIcon asChild`, which hands its pointer handlers to the item underneath. Only
+ * Dashboard is wired; the rest are placeholders for pages that do not exist yet.
  */
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import {
-  IconLayoutDashboard,
-  IconFileDescription,
-  IconFolders,
-  IconUsersGroup,
-  IconShieldCheck,
-  IconUser,
-  IconBell,
-  IconDatabase,
-  IconSettings,
-  IconChevronRight,
-  IconCrown,
-} from "@tabler/icons-react";
+import { Crown } from "lucide-react";
+import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import { LayoutDashboard } from "@/components/animate-ui/icons/layout-dashboard";
+import { ClipboardList } from "@/components/animate-ui/icons/clipboard-list";
+import { Layers } from "@/components/animate-ui/icons/layers";
+import { Users } from "@/components/animate-ui/icons/users";
+import { BadgeCheck } from "@/components/animate-ui/icons/badge-check";
+import { User } from "@/components/animate-ui/icons/user";
+import { Bell } from "@/components/animate-ui/icons/bell";
+import { Blocks } from "@/components/animate-ui/icons/blocks";
+import { Settings } from "@/components/animate-ui/icons/settings";
+import { ChevronRight } from "@/components/animate-ui/icons/chevron-right";
 import {
   Sidebar,
   SidebarContent,
@@ -41,32 +42,32 @@ import { cn } from "@/lib/utils";
 
 type Item = {
   label: string;
-  icon: React.ComponentType<{ className?: string; stroke?: number }>;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   href?: string;
   /** Renders the disclosure chevron for sections that will expand later. */
   expandable?: boolean;
 };
 
 const GROUPS: { label: string; items: Item[] }[] = [
-  { label: "Overview", items: [{ label: "Dashboard", icon: IconLayoutDashboard, href: "/admin" }] },
+  { label: "Overview", items: [{ label: "Dashboard", icon: LayoutDashboard, href: "/admin" }] },
   {
     label: "Operations",
     items: [
-      { label: "Visa Applications", icon: IconFileDescription },
-      { label: "Documents", icon: IconFolders },
+      { label: "Visa Applications", icon: ClipboardList },
+      { label: "Documents", icon: Layers },
     ],
   },
   {
     label: "People",
     items: [
-      { label: "Team", icon: IconUsersGroup },
-      { label: "Agents", icon: IconShieldCheck },
-      { label: "Users", icon: IconUser },
+      { label: "Team", icon: Users },
+      { label: "Agents", icon: BadgeCheck },
+      { label: "Users", icon: User },
     ],
   },
-  { label: "System", items: [{ label: "Notifications", icon: IconBell }] },
-  { label: "Data", items: [{ label: "Data", icon: IconDatabase, expandable: true }] },
-  { label: "Settings", items: [{ label: "Settings", icon: IconSettings, expandable: true }] },
+  { label: "System", items: [{ label: "Notifications", icon: Bell }] },
+  { label: "Data", items: [{ label: "Data", icon: Blocks, expandable: true }] },
+  { label: "Settings", items: [{ label: "Settings", icon: Settings, expandable: true }] },
 ];
 
 export function AdminSidebar() {
@@ -112,7 +113,7 @@ export function AdminSidebar() {
                         />
                       )}
                       <Icon
-                        stroke={1.6}
+                        strokeWidth={1.6}
                         className={cn(
                           "relative z-10 size-[18px] shrink-0 transition-colors",
                           active ? "text-brand-strong" : "text-ink-soft",
@@ -120,9 +121,9 @@ export function AdminSidebar() {
                       />
                       <span className="relative z-10 truncate">{item.label}</span>
                       {item.expandable && (
-                        <IconChevronRight
-                          stroke={1.6}
-                          className="relative z-10 ml-auto size-4 shrink-0 text-ink-soft/70 transition-transform duration-200 group-hover/menu-item:translate-x-0.5"
+                        <ChevronRight
+                          strokeWidth={1.6}
+                          className="relative z-10 ml-auto size-4 shrink-0 text-ink-soft/70"
                         />
                       )}
                     </>
@@ -136,18 +137,22 @@ export function AdminSidebar() {
                   );
 
                   return (
-                    <SidebarMenuItem key={item.label} className="group/menu-item">
-                      {item.href ? (
-                        <SidebarMenuButton asChild isActive={active} className={className}>
-                          <Link href={item.href}>{inner}</Link>
-                        </SidebarMenuButton>
-                      ) : (
-                        // No page behind these yet; a button keeps them inert but focusable.
-                        <SidebarMenuButton type="button" className={className}>
-                          {inner}
-                        </SidebarMenuButton>
-                      )}
-                    </SidebarMenuItem>
+                    // The row is the hover target; every Animate UI icon inside it reads
+                    // the trigger from this wrapper's context.
+                    <AnimateIcon key={item.label} asChild animateOnHover>
+                      <SidebarMenuItem>
+                        {item.href ? (
+                          <SidebarMenuButton asChild isActive={active} className={className}>
+                            <Link href={item.href}>{inner}</Link>
+                          </SidebarMenuButton>
+                        ) : (
+                          // No page behind these yet; a button keeps them inert but focusable.
+                          <SidebarMenuButton type="button" className={className}>
+                            {inner}
+                          </SidebarMenuButton>
+                        )}
+                      </SidebarMenuItem>
+                    </AnimateIcon>
                   );
                 })}
               </SidebarMenu>
@@ -163,8 +168,8 @@ export function AdminSidebar() {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgb(255_255_255/0.85)_50%,transparent_65%)]"
           />
-          <IconCrown
-            stroke={1.4}
+          <Crown
+            strokeWidth={1.4}
             className="relative mx-auto size-7 text-brand-strong"
           />
           <p className="relative mt-3 text-[11px] leading-relaxed text-ink-soft">
