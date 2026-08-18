@@ -1,0 +1,295 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Infinia Visa design tokens.
+
+  The brand is preserved from the live site: gold #BEA784, Libre Caslon Text headings,
+  Inter body, 10px corner radius, white ground, warm near-black ink. Nothing here invents
+  a new palette. `--brand-strong` is the site's own darker gold (--gold-700) and exists
+  because #BEA784 as text on white fails contrast.
+
+  Shape rule, applied everywhere: 10px. Full pill only for avatars and icon buttons.
+*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-ground: var(--ground);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-tint: var(--brand-tint);
+  --color-link: var(--link);
+  --color-positive: var(--positive);
+
+  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  --font-mono: var(--font-numeric);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-3xl: calc(var(--radius) * 2);
+  --radius-4xl: calc(var(--radius) * 2.4);
+}
+
+:root {
+  /* Brand palette, carried over from the live site */
+  --ground: #fbf9f6;
+  --paper: #f6f1e8;
+  --surface: #ffffff;
+  --ink: #1f1a15;
+  --ink-soft: #7a7167;
+  --line: #ebe4d8;
+  --brand: #bea784;
+  --brand-strong: #a07e4c;
+  --brand-ink: #221a11;
+  --brand-tint: #f4ecdf;
+  --link: #2b4ac7;
+  --positive: #0e7a4f;
+
+  /* shadcn semantic tokens mapped onto the palette above */
+  --background: var(--ground);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-ink);
+  --secondary: #f3efe8;
+  --secondary-foreground: var(--ink);
+  --muted: #f3efe8;
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--brand-tint);
+  --accent-foreground: var(--ink);
+  --destructive: #a4271f;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--brand-strong);
+  --chart-1: var(--brand);
+  --chart-2: #c9b699;
+  --chart-3: #d6c7ae;
+  --chart-4: #e3d8c4;
+  --chart-5: #f0e9da;
+  --radius: 0.625rem;
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: var(--brand-ink);
+  --sidebar-accent: var(--brand-tint);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--brand-strong);
+}
+
+/*
+  Dark tokens exist so the system is complete and a toggle stays a one-line change.
+  The pages are locked to light: nothing adds the `.dark` class.
+*/
+.dark {
+  --ground: #100d0a;
+  --paper: #171310;
+  --surface: #1b1712;
+  --ink: #f4f0ea;
+  --ink-soft: #a49a8d;
+  --line: #2b241d;
+  --brand: #bea784;
+  --brand-strong: #d8c3a1;
+  --brand-ink: #16100a;
+  --brand-tint: #241d16;
+  --link: #93a8f2;
+  --positive: #4ec08c;
+
+  --background: var(--ground);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-ink);
+  --secondary: #221c16;
+  --secondary-foreground: var(--ink);
+  --muted: #221c16;
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--brand-tint);
+  --accent-foreground: var(--ink);
+  --destructive: #e0685e;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--brand-strong);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: var(--brand-ink);
+  --sidebar-accent: var(--brand-tint);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--brand-strong);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply font-sans;
+    /* The gutter is reserved permanently, so hiding the scrollbar never changes width. */
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+    /* Anchor links land below the sticky nav rather than under it. */
+    scroll-padding-top: 6rem;
+  }
+
+  /*
+    Radix's scroll lock (react-remove-scroll-bar) adds margin-right equal to the scrollbar
+    width when a select opens. With scrollbar-gutter reserving that space already, the two
+    compensations stack and shove the page right. Cancel theirs; specificity beats their
+    injected body[data-scroll-locked] rule.
+  */
+  html body[data-scroll-locked] {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body {
+    @apply bg-ground text-ink;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+    font-weight: 400;
+  }
+
+  /* One visible focus treatment for the whole site. Ink, because gold on white is thin. */
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* The primary button treatment from the live site: gold fill, inset highlight, warm shadow. */
+@utility btn-gold {
+  background-color: var(--brand);
+  color: var(--brand-ink);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.28),
+    0 4px 12px -6px rgb(22 16 10 / 0.3);
+}
+
+@utility numeric {
+  font-family: var(--font-numeric);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* The application pane is the only independently scrolling region on the wizard. */
+.application-form-scroll {
+  scrollbar-color: var(--brand) var(--paper);
+  scrollbar-width: thin;
+}
+
+.application-form-scroll::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+.application-form-scroll::-webkit-scrollbar-track {
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+}
+
+.application-form-scroll::-webkit-scrollbar-thumb {
+  background: var(--brand);
+  border: 3px solid var(--paper);
+  border-radius: 999px;
+}
+
+.application-form-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-strong);
+}
+
+/* Marquee track: each half of the duplicated list slides one full width. */
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+/*
+  Hero photograph: a very slow scale so the frame breathes. Nothing the reader is trying
+  to read moves, and the reduced-motion block below stops it entirely.
+*/
+@keyframes hero-drift {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1); }
+}
+
+.hero-drift {
+  animation: hero-drift 14s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
