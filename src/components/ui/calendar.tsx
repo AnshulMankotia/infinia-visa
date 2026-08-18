@@ -25,12 +25,9 @@ function Calendar({
   locale,
   formatters,
   components,
-  dayButtonClassName,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
-  /** Extra treatment for a calendar used as a primary interaction, such as date ranges. */
-  dayButtonClassName?: string
 }) {
   const defaultClassNames = getDefaultClassNames()
 
@@ -168,12 +165,8 @@ function Calendar({
             <ChevronDownIcon className={cn("size-4", className)} {...props} />
           )
         },
-        DayButton: ({ ...dayButtonProps }) => (
-          <CalendarDayButton
-            locale={locale}
-            {...dayButtonProps}
-            className={cn(dayButtonProps.className, dayButtonClassName)}
-          />
+        DayButton: ({ ...props }) => (
+          <CalendarDayButton locale={locale} {...props} />
         ),
         WeekNumber: ({ children, ...props }) => {
           return (

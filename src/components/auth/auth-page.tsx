@@ -147,14 +147,14 @@ export function AuthPage({ mode }: { mode: Mode }) {
   );
 
   return (
-    <div className="flex min-h-[100dvh] bg-ground 2xl:h-[100dvh] 2xl:overflow-hidden">
+    <div className="flex min-h-[100dvh] bg-ground">
       {/* Form column */}
       <div className="flex w-full flex-col px-6 py-8 md:px-12 lg:w-1/2 lg:px-20">
         <Rise index={0}>
           <Logo className="-ml-1 w-fit" />
         </Rise>
 
-        <div className="mx-auto flex w-full max-w-[26rem] flex-1 flex-col justify-center py-8 2xl:max-w-[36rem] 2xl:py-4">
+        <div className="mx-auto flex w-full max-w-[26rem] flex-1 flex-col justify-center py-8">
           <Rise index={1}>
             <h1 className="font-heading text-[2rem] leading-[1.15] text-ink md:text-[2.3rem]">
               {copy.title}
@@ -163,12 +163,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
           </Rise>
 
           <Rise index={2}>
-            <form
-              className={`mt-7 grid gap-4 2xl:mt-4 ${
-                mode === "signup" ? "2xl:grid-cols-2 2xl:gap-x-4 2xl:gap-y-3" : ""
-              }`}
-              onSubmit={handleSubmit}
-            >
+            <form className="mt-7 grid gap-4" onSubmit={handleSubmit}>
               {mode === "signup" ? (
                 <div className="grid gap-2">
                   <Label htmlFor={`${ids}-name`} className="text-[13px] font-semibold">
@@ -305,7 +300,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
                     </Field>
                   </div>
 
-                  <label className="mt-1 flex items-start gap-2.5 text-[13px] text-ink-soft 2xl:col-span-2">
+                  <label className="mt-1 flex items-start gap-2.5 text-[13px] text-ink-soft">
                     <input
                       type="checkbox"
                       name="terms"
@@ -332,14 +327,14 @@ export function AuthPage({ mode }: { mode: Mode }) {
               ) : null}
 
               {error ? (
-                <p role="alert" className="text-[13px] text-destructive 2xl:col-span-2">
+                <p role="alert" className="text-[13px] text-destructive">
                   {error}
                 </p>
               ) : null}
 
               <button
                 type="submit"
-                className="btn-gold mt-1 inline-flex h-11 w-full items-center justify-center rounded-lg text-[14px] font-semibold text-brand-ink transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none 2xl:col-span-2 hover:-translate-y-0.5 hover:bg-[#b0966f] hover:shadow-[0_14px_28px_-16px_rgba(31,26,21,0.7)] focus-visible:shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--brand-strong)] focus-visible:outline-none active:translate-y-0 active:scale-[0.98]"
+                className="btn-gold mt-1 inline-flex h-11 w-full items-center justify-center rounded-lg text-[14px] font-semibold text-brand-ink transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none hover:-translate-y-0.5 hover:bg-[#b0966f] hover:shadow-[0_14px_28px_-16px_rgba(31,26,21,0.7)] focus-visible:shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--brand-strong)] focus-visible:outline-none active:translate-y-0 active:scale-[0.98]"
               >
                 {copy.submit}
               </button>
@@ -347,7 +342,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
           </Rise>
 
           <Rise index={3}>
-            <div className="mt-6 flex items-center gap-4 2xl:mt-4">
+            <div className="mt-6 flex items-center gap-4">
               <span className="h-px flex-1 bg-line" />
               <span className="text-[12px] text-ink-soft">
                 or {mode === "signup" ? "sign up" : "sign in"} with
@@ -355,7 +350,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
               <span className="h-px flex-1 bg-line" />
             </div>
 
-            <div className="mt-5 grid grid-cols-3 gap-3 2xl:mt-3">
+            <div className="mt-5 grid grid-cols-3 gap-3">
               {SOCIALS.map((social) => (
                 <button
                   key={social.name}
@@ -378,7 +373,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
               ))}
             </div>
 
-            <p className="mt-6 text-center text-[13px] text-ink-soft 2xl:mt-4">
+            <p className="mt-6 text-center text-[13px] text-ink-soft">
               {copy.switchPrompt}{" "}
               <Link
                 href={copy.switchHref}

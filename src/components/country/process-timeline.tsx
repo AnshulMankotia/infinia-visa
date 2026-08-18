@@ -13,7 +13,7 @@
  * transform, opacity and colour animate; reduced motion renders every step active.
  */
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useMotionValueEvent,
@@ -24,13 +24,8 @@ import {
 import { Reveal } from "@/components/ui/reveal";
 import { APPLICATION_STEPS } from "@/data/site";
 
-/**
- * The next card begins at the midpoint of the card before it. Keeping the card width
- * responsive lets that rule hold without allowing the last step to leave its container.
- */
-const MIN_CARD_WIDTH = 300;
-const MAX_CARD_WIDTH = 544;
-const NODE_COLUMN_WIDTH = 52;
+/** Horizontal run of each stair step at lg and up. */
+const STAIR_X = 84;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function ProcessTimeline() {
@@ -40,7 +35,6 @@ export function ProcessTimeline() {
     path: "",
     stops: [],
   });
-  const [cardWidth, setCardWidth] = useState(480);
   const [reached, setReached] = useState(-1);
   const reduce = useReducedMotion();
 
@@ -56,19 +50,6 @@ export function ProcessTimeline() {
     if (!container) return;
 
     const measure = () => {
-      /*
-       * Four cards occupy 2.5 card widths when each one begins at the preceding
-       * card's midpoint. Reflow first, then measure the actual node centres.
-       */
-      const nextCardWidth = Math.min(
-        MAX_CARD_WIDTH,
-        Math.max(MIN_CARD_WIDTH, (container.clientWidth - NODE_COLUMN_WIDTH) / 2.5),
-      );
-      if (Math.abs(nextCardWidth - cardWidth) > 0.5) {
-        setCardWidth(nextCardWidth);
-        return;
-      }
-
       const base = container.getBoundingClientRect();
       const points = dotRefs.current
         .filter((dot): dot is HTMLSpanElement => Boolean(dot))
@@ -100,7 +81,7 @@ export function ProcessTimeline() {
     const observer = new ResizeObserver(measure);
     observer.observe(container);
     return () => observer.disconnect();
-  }, [cardWidth]);
+  }, []);
 
   /*
     Activation reads raw scroll progress, not the spring: the state should switch the
@@ -129,20 +110,12 @@ export function ProcessTimeline() {
           </h2>
         </Reveal>
 
-        <div
-          ref={containerRef}
-          className="relative mt-12"
-          style={{ "--timeline-card-width": `${cardWidth}px` } as CSSProperties}
-        >
-          {/*
-            The tracker deliberately sits above each milestone, so its horizontal run
-            visibly passes through the centre of the circular marker instead of ending
-            at its edge.
-          */}
+        <div ref={containerRef} className="relative mt-12">
+          {/* Stepped tracker: faint rail plus the scroll-driven gold fill. */}
           {track.path ? (
             <svg
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 z-20 h-full w-full overflow-visible"
+              className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
             >
               <path
                 d={track.path}
@@ -173,14 +146,8 @@ export function ProcessTimeline() {
                   as="li"
                   key={step.title}
                   index={index % 2}
-                  /* The SVG path is measured from these nodes, so their reveal must not translate them. */
-                  y={0}
-                  className="relative ml-0 lg:ml-[var(--timeline-offset)]"
-                  style={
-                    {
-                      "--timeline-offset": `${(index * cardWidth) / 2}px`,
-                    } as CSSProperties
-                  }
+                  className="relative"
+                  style={{ marginLeft: `min(${index * STAIR_X}px, ${index * 7}vw)` }}
                 >
                   <div className="flex items-start gap-5">
                     {/* Node */}
@@ -190,7 +157,7 @@ export function ProcessTimeline() {
                       }}
                       animate={reduce ? undefined : { scale: active ? 1.15 : 1 }}
                       transition={{ duration: 0.45, ease: EASE }}
-                      className={`relative z-10 mt-1 grid size-8 shrink-0 place-items-center rounded-full border bg-transparent transition-colors duration-400 ${
+                      className={`relative z-10 mt-1 grid size-8 shrink-0 place-items-center rounded-full border bg-surface transition-colors duration-400 ${
                         active ? "border-brand" : "border-line"
                       }`}
                     >
@@ -226,7 +193,7 @@ export function ProcessTimeline() {
                           reduce ? undefined : { scale: active ? 1.02 : 1, y: active ? -3 : 0 }
                         }
                         transition={{ duration: 0.45, ease: EASE }}
-                        className={`mt-2 w-full origin-center rounded-xl border bg-surface p-5 transition-[border-color,box-shadow,opacity] duration-400 lg:w-[var(--timeline-card-width)] ${
+                        className={`mt-2 max-w-[34rem] origin-left rounded-xl border bg-surface p-5 transition-[border-color,box-shadow,opacity] duration-400 ${
                           active
                             ? "border-brand opacity-100 shadow-[0_24px_50px_-30px_rgba(31,26,21,0.5)]"
                             : "border-line opacity-70 shadow-[0_10px_26px_-24px_rgba(31,26,21,0.35)]"

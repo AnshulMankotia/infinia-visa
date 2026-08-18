@@ -233,31 +233,6 @@
   font-feature-settings: "tnum";
 }
 
-/* The application pane is the only independently scrolling region on the wizard. */
-.application-form-scroll {
-  scrollbar-color: var(--brand) var(--paper);
-  scrollbar-width: thin;
-}
-
-.application-form-scroll::-webkit-scrollbar {
-  width: 0.75rem;
-}
-
-.application-form-scroll::-webkit-scrollbar-track {
-  background: var(--paper);
-  border-left: 1px solid var(--line);
-}
-
-.application-form-scroll::-webkit-scrollbar-thumb {
-  background: var(--brand);
-  border: 3px solid var(--paper);
-  border-radius: 999px;
-}
-
-.application-form-scroll::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-strong);
-}
-
 /* Marquee track: each half of the duplicated list slides one full width. */
 @keyframes scroll {
   to {
