@@ -279,6 +279,18 @@
   will-change: transform;
 }
 
+/* Apply-wizard stepper: a soft ring emanating from the active step's circle. */
+@keyframes stepper-ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

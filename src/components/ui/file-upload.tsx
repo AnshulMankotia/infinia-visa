@@ -35,6 +35,9 @@ export const FileUpload = ({
   hint = "Drag and drop, or click to browse. PDF, JPG or PNG up to 10 MB.",
   accept = { "application/pdf": [".pdf"], "image/*": [".jpg", ".jpeg", ".png"] },
   onChange,
+  onRemove,
+  initialFileName,
+  compact = false,
   className,
 }: {
   id?: string;
@@ -42,12 +45,19 @@ export const FileUpload = ({
   hint?: string;
   accept?: Record<string, string[]>;
   onChange?: (files: File[]) => void;
+  /** Called when the accepted file is removed again. */
+  onRemove?: () => void;
+  /** A file accepted in an earlier mount, so the card stays in its done state. */
+  initialFileName?: string;
+  /** Tighter paddings for grids of several upload cards. */
+  compact?: boolean;
   className?: string;
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const reduce = useReducedMotion();
+  const fileName = file?.name ?? initialFileName ?? null;
 
   const accepted = (files: File[]) => {
     const next = files[0];
@@ -77,7 +87,8 @@ export const FileUpload = ({
         onClick={() => fileInputRef.current?.click()}
         whileHover={reduce ? undefined : "animate"}
         className={cn(
-          "group/file relative block w-full cursor-pointer overflow-hidden rounded-xl border border-dashed p-8 transition-colors",
+          "group/file relative block w-full cursor-pointer overflow-hidden rounded-xl border border-dashed transition-colors",
+          compact ? "p-4" : "p-8",
           isDragActive ? "border-brand-strong bg-brand-tint/60" : "border-line bg-ground",
           error && "border-destructive",
         )}
@@ -94,31 +105,42 @@ export const FileUpload = ({
         />
 
         <div className="flex flex-col items-center justify-center text-center">
-          <p className="relative z-20 text-base font-semibold text-ink">{label}</p>
-          <p id={`${id}-hint`} className="relative z-20 mt-1.5 max-w-sm text-sm text-ink-soft">
+          <p className={cn("relative z-20 font-semibold text-ink", compact ? "text-sm" : "text-base")}>
+            {label}
+          </p>
+          <p
+            id={`${id}-hint`}
+            className={cn("relative z-20 max-w-sm text-ink-soft", compact ? "mt-1 text-xs" : "mt-1.5 text-sm")}
+          >
             {hint}
           </p>
 
-          <div className="relative mx-auto mt-8 w-full max-w-md">
-            {file ? (
+          <div className={cn("relative mx-auto w-full max-w-md", compact ? "mt-4" : "mt-8")}>
+            {fileName ? (
               <motion.div
-                layoutId="file-upload"
-                className="relative z-40 mx-auto flex w-full items-center gap-3 rounded-xl border border-line bg-surface p-4 text-left"
+                layoutId={`file-upload-${id}`}
+                className={cn(
+                  "relative z-40 mx-auto flex w-full items-center gap-3 rounded-xl border border-line bg-surface text-left",
+                  compact ? "p-2.5" : "p-4",
+                )}
               >
                 <IconFileCheck size={22} stroke={1.75} className="shrink-0 text-positive" />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-ink">{file.name}</p>
-                  <p className="numeric mt-0.5 text-xs text-ink-soft">
-                    {(file.size / (1024 * 1024)).toFixed(2)} MB
-                  </p>
+                  <p className="truncate text-sm font-medium text-ink">{fileName}</p>
+                  {file ? (
+                    <p className="numeric mt-0.5 text-xs text-ink-soft">
+                      {(file.size / (1024 * 1024)).toFixed(2)} MB
+                    </p>
+                  ) : null}
                 </div>
                 <button
                   type="button"
-                  aria-label={`Remove ${file.name}`}
+                  aria-label={`Remove ${fileName}`}
                   onClick={(event) => {
                     event.stopPropagation();
                     setFile(null);
                     if (fileInputRef.current) fileInputRef.current.value = "";
+                    onRemove?.();
                   }}
                   className="grid size-8 shrink-0 place-items-center rounded-full text-ink-soft transition-colors hover:bg-brand-tint hover:text-ink"
                 >
@@ -128,10 +150,13 @@ export const FileUpload = ({
             ) : (
               <>
                 <motion.div
-                  layoutId="file-upload"
+                  layoutId={`file-upload-${id}`}
                   variants={reduce ? undefined : liftVariant}
                   transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  className="relative z-40 mx-auto grid h-24 w-28 place-items-center rounded-xl border border-line bg-surface shadow-[0_18px_40px_-28px_rgba(22,16,10,0.45)]"
+                  className={cn(
+                    "relative z-40 mx-auto grid place-items-center rounded-xl border border-line bg-surface shadow-[0_18px_40px_-28px_rgba(22,16,10,0.45)]",
+                    compact ? "h-14 w-20" : "h-24 w-28",
+                  )}
                 >
                   {isDragActive ? (
                     <span className="flex flex-col items-center gap-1 text-sm text-brand-strong">
@@ -145,7 +170,10 @@ export const FileUpload = ({
 
                 <motion.div
                   variants={reduce ? undefined : outlineVariant}
-                  className="absolute inset-0 z-30 mx-auto grid h-24 w-28 place-items-center rounded-xl border border-dashed border-brand opacity-0"
+                  className={cn(
+                    "absolute inset-0 z-30 mx-auto grid place-items-center rounded-xl border border-dashed border-brand opacity-0",
+                    compact ? "h-14 w-20" : "h-24 w-28",
+                  )}
                 />
               </>
             )}

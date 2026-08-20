@@ -93,7 +93,7 @@ export function AdminSidebar() {
       <SidebarContent className="gap-0 px-2 py-2">
         {GROUPS.map((group) => (
           <SidebarGroup key={group.label} className="py-1.5">
-            <SidebarGroupLabel className="h-7 px-2 text-[10px] font-medium tracking-[0.18em] text-ink-soft/80 uppercase">
+            <SidebarGroupLabel className="h-7 px-2 text-[10px] font-semibold tracking-[0.18em] text-ink-soft uppercase">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -113,7 +113,7 @@ export function AdminSidebar() {
                         />
                       )}
                       <Icon
-                        strokeWidth={1.6}
+                        strokeWidth={1.9}
                         className={cn(
                           "relative z-10 size-[18px] shrink-0 transition-colors",
                           active ? "text-brand-strong" : "text-ink-soft",
@@ -122,7 +122,7 @@ export function AdminSidebar() {
                       <span className="relative z-10 truncate">{item.label}</span>
                       {item.expandable && (
                         <ChevronRight
-                          strokeWidth={1.6}
+                          strokeWidth={1.9}
                           className="relative z-10 ml-auto size-4 shrink-0 text-ink-soft/70"
                         />
                       )}
@@ -130,10 +130,10 @@ export function AdminSidebar() {
                   );
 
                   const className = cn(
-                    "relative h-9 gap-3 rounded-lg px-2.5 text-[13.5px] transition-colors",
+                    "relative h-9 gap-3 rounded-lg px-2.5 text-[13.5px] font-medium transition-colors",
                     active
-                      ? "font-medium text-ink hover:bg-transparent"
-                      : "text-ink/80 hover:bg-paper hover:text-ink",
+                      ? "font-semibold text-ink hover:bg-transparent"
+                      : "text-ink/90 hover:bg-paper hover:text-ink",
                   );
 
                   return (

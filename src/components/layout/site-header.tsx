@@ -28,8 +28,8 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
         onPhoto
-          ? "border-b border-white/15 bg-white/10 backdrop-blur-md"
-          : "border-b border-line/70 bg-ground/70 shadow-[0_8px_30px_-18px_rgba(31,26,21,0.25)] backdrop-blur-xl",
+          ? "border-b border-transparent bg-transparent"
+          : "border-b border-line/70 bg-ground/85 shadow-[0_8px_30px_-18px_rgba(31,26,21,0.25)] backdrop-blur-xl",
       )}
     >
       <div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between gap-6 px-4 md:px-8">
@@ -41,8 +41,10 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               key={link.href}
               href={link.href}
               className={cn(
-                "group relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-[13px] transition-colors",
-                onPhoto ? "text-white/85 hover:text-white" : "text-ink-soft hover:text-ink",
+                "group relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-[13.5px] font-medium transition-colors",
+                onPhoto
+                  ? "text-white drop-shadow-[0_1px_3px_rgba(31,26,21,0.55)]"
+                  : "text-ink-soft hover:text-ink",
               )}
             >
               {link.label}
@@ -63,8 +65,10 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
           <Link
             href={CTA.signIn.href}
             className={cn(
-              "hidden rounded-lg px-3 py-2 text-[13px] transition-colors sm:inline-flex",
-              onPhoto ? "text-white/85 hover:text-white" : "text-ink-soft hover:text-ink",
+              "hidden rounded-lg px-3 py-2 text-[13.5px] font-medium transition-colors sm:inline-flex",
+              onPhoto
+                ? "text-white drop-shadow-[0_1px_3px_rgba(31,26,21,0.55)] hover:text-white"
+                : "text-ink-soft hover:text-ink",
             )}
           >
             {CTA.signIn.label}
@@ -72,7 +76,12 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
 
           <Link
             href={CTA.start.href}
-            className="btn-gold inline-flex items-center rounded-lg px-4 py-2.5 text-[13px] font-semibold text-brand-ink transition-all duration-200 hover:-translate-y-px hover:bg-[#b0966f] active:translate-y-0 active:scale-[0.98]"
+            className={cn(
+              "inline-flex items-center rounded-lg px-4 py-2.5 text-[13px] font-semibold transition-all duration-200 hover:-translate-y-px active:translate-y-0 active:scale-[0.98]",
+              onPhoto
+                ? "border border-white/60 bg-white/15 text-white backdrop-blur-md hover:bg-white/25"
+                : "btn-gold text-brand-ink hover:bg-[#b0966f]",
+            )}
           >
             {CTA.start.label}
           </Link>
